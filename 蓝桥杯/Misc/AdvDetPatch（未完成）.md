@@ -1,0 +1,12 @@
+**题目描述**
+
+![image-20240220160940385](./img/AdvDetPatch%EF%BC%88%E6%9C%AA%E5%AE%8C%E6%88%90%EF%BC%89/image-20240220160940385.png)
+
+按照题目要求登录服务器
+
+![image-20240220160945014](./img/AdvDetPatch%EF%BC%88%E6%9C%AA%E5%AE%8C%E6%88%90%EF%BC%89/image-20240220160945014.png)
+
+查看文件README.md
+
+![image-20240220160948974](./img/AdvDetPatch%EF%BC%88%E6%9C%AA%E5%AE%8C%E6%88%90%EF%BC%89/image-20240220160948974.png)
+
