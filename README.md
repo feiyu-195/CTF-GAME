@@ -33,7 +33,7 @@ git add 文件.后缀
 这个时候当我们上传到github main分支发现会报错，因为git bash默认帮我们创建的是master分支，这是我们只能上传到一个新分支master（github以前的默认主分支），我们可以通过修改git默认分支名称来更改：
 
 ```powershell
-git branch m master main
+git branch -m master main
 ```
 
 ![image-20240220210114543](./img/README/image-20240220210114543.png)
