@@ -5,7 +5,7 @@ pytrans最近又get了一个python知识点，但是当他深入学习的时候�
 
 ## 解题
 
-下载附件是一个elf文件，根据题目描述猜测应该是pythonpip打包的elf文件，用pyinstxtractor反编译工具来反编译出源文件：
+下载附件是一个`elf`文件，根据题目描述猜测应该是`pythonpip`打包的elf文件，用`pyinstxtractor`反编译工具来反编译出源文件：
 
 ![image-20240220155555533](./img/Pytrans/image-20240220155555533.png)
 
@@ -13,7 +13,9 @@ pytrans最近又get了一个python知识点，但是当他深入学习的时候�
 
 ![image-20240220155605218](./img/Pytrans/image-20240220155605218.png)
 
-可以看到两个主程序run.pyc和struct.pyc，用uncompyle6将其进行反编译成py文件,注意uncompyle6的版本应当与文件使用的python版本一致，通过文件我们可以知道该题目用的是python3.8,由于linux安装多版本python比较复杂，所以uncompyle6命令我是在windows系统下使用，python3.8安装在windows下也很简单，只要在安装时不要选添加到环境变量即可，后续安装python3.8后使用该版本的pip只要找到python3.8的主目录下的Script下通过cmd命令再用pip命令即可：
+可以看到两个主程序`run.pyc`和`struct.pyc`，用`uncompyle6`将其进行反编译成`py`文件,注意`uncompyle6`的版本应当与文件使用的`python`版本一致，通过文件我们可以知道该题目用的是`python3.8`。
+
+>  由于`linux`安装多版本`python`比较复杂，所以`uncompyle6`命令我是在`windows`系统下使用，`python3.8`安装在`windows`下也很简单，只要在安装时不要选添加到环境变量即可，后续安装`python3.8`后使用该版本的`pip`只要找到`python3.8`的主目录下的`Script`下通过`cmd`命令再用`pip`命令即可：
 
 ```shell
 .\uncompyle6.exe -o run.py[的文件路径] run.pyc[的文件路径] 
@@ -22,27 +24,27 @@ pytrans最近又get了一个python知识点，但是当他深入学习的时候�
 
 ![image-20240220155705002](./img/Pytrans/image-20240220155705002.png)
 
-Warning警告不用管，这样uncompyle6库就安装成功，使用的话也是同理，在该目录下使用上面的命令就行
+`Warning`警告不用管，这样`uncompyle6`库就安装成功，使用的话也是同理，在该目录下使用上面的命令就行
 
 ![image-20240220155710778](./img/Pytrans/image-20240220155710778.png)
 
 ![image-20240220155716220](./img/Pytrans/image-20240220155716220.png)
 
-反编译好后再讲得到的文件拉回到kali，（pyinstxtractor.py该工具也可以在windows下使用），由于该题目是一个elf文件，所以就算是提取出来的也都是elf的linux文件，所以在kali（linux）环境中才能运行。
+反编译好后再讲得到的文件拉回到kali，（`pyinstxtractor.py`该工具也可以在`windows`下使用），由于该题目是一个`elf`文件，所以就算是提取出来的也都是`elf`的`linux`文件，所以在`linux`环境中才能运行。
 
-查看run.py源代码：
+查看`run.py`源代码：
 
 ![image-20240220155722586](./img/Pytrans/image-20240220155722586.png)
 
-可以看到流程是先让我们输入10个数，以回车结尾，再调取mylib.so文件里的check函数，对我们输入的值进行操作，那下一步就是分析文件中的mylib.so文件，将其放入IDA中：
+可以看到流程是先让我们输入`10`个数，以回车结尾，再调取`mylib.so`文件里的`check`函数，对我们输入的值进行操作，那下一步就是分析文件中的`mylib.so`文件，将其放入`IDA`中：
 
 ![image-20240220155730326](./img/Pytrans/image-20240220155730326.png)
 
-可以看到check函数的代码是将我们输入的10个值进行操作在当做if语句做判断条件a1数组就是我们输入的10个值，直接通过该函数的几个条件想要求解这10无疑是异常困难的，那么接下来我就有要是用一个CTF逆向中有一个非常重要的工具z3库，
+可以看到`check`函数的代码是将我们输入的`10`个值进行操作在当做if语句做判断条件`a1`数组就是我们输入的`10`个值，直接通过该函数的几个条件想要求解这`10`无疑是异常困难的，那么接下来我就有要是用一个CTF逆向中有一个非常重要的工具`z3`库，
 
 > Z3 在工业应用中实际上常见于软件验证、程序分析等。然而由于功能实在强大，也被用于很多其他领域。CTF 领域中，能够用约束求解器搞定的问题常见于密码题、二进制逆向、符号执行、Fuzzing 模糊测试等。
 
-详细用法就不展开讲，感兴趣自己去搜索，直接给出代码：注意IDA中的*a1就是值得a1数组起始地址，也就是a1[0]
+详细用法就不展开讲，感兴趣自己去搜索，直接给出代码：注意IDA中的`*a1`就是值得`a1`数组起始地址，也就是`a1[0]`
 
 ```python
 from z3 import *
@@ -99,13 +101,11 @@ if solver.check() == sat:
 
 
 
-运行后得到10个数，按照循序排列，得到程序要求输入的10个数：a1 = 511 112 821 949 517 637 897 575 648 738，
-
-将这10个数放入程序中运行，发现后面还要求输入：
+运行后得到10个数，按照循序排列，得到程序要求输入的10个数：`a1 = 511 112 821 949 517 637 897 575 648 738`，将这10个数放入程序中运行，发现后面还要求输入：
 
 ![image-20240220155804172](./img/Pytrans/image-20240220155804172.png)
 
-返回查看源代码，可以看到还有后面部分将我们输入的10个值进行一系列操作后，进行base64编码，再进行zlib压缩得到uncompressed_data，我们不用管编码什么，直接编辑run.py输出最后的uncompressed_data数据，
+*返回查看源代码*，可以看到还有后面部分将我们输入的10个值进行一系列操作后，进行`base64`编码，再进行`zlib`压缩得到`uncompressed_data`，我们不用管编码什么，直接编辑`run.py`输出最后的`uncompressed_data`数据，
 
 ![image-20240220155810043](./img/Pytrans/image-20240220155810043.png)
 
@@ -113,7 +113,7 @@ if solver.check() == sat:
 
 ![image-20240220155814802](./img/Pytrans/image-20240220155814802.png)
 
-再次编辑run.py代码，让其以winhex格式一字节一字节的16进制输出，并以ASCII Hex形式粘贴到winhex中（后面的字符串不用复制，是程序本身输出）：
+再次编辑`run.py`代码，让其以`winhex`格式一字节一字节的16进制输出，并以`ASCII Hex`形式粘贴到`winhex`中（后面的字符串不用复制，是程序本身输出）：
 
 ![image-20240220155822277](./img/Pytrans/image-20240220155822277.png)
 
@@ -121,11 +121,11 @@ if solver.check() == sat:
 
 ![image-20240220155832152](./img/Pytrans/image-20240220155832152.png)
 
-看过run.pyc文件的16进制就会发现，该文件与他非常相似，知识少了一个文件头，
+看过`run.pyc`文件的16进制就会发现，该文件与他非常相似，知识少了一个文件头，
 
 ![image-20240220155837505](./img/Pytrans/image-20240220155837505.png)
 
-我们补全后并把他命名为pyc文件，然后再用uncompyle6反编译得到一个py文件，查看源代码：
+我们补全后并把他命名为`pyc`文件，然后再用`uncompyle6`反编译得到一个`py`文件，查看源代码：
 
 ```python
 # uncompyle6 version 3.9.0
@@ -248,17 +248,17 @@ else:
 
 
 
-运行文件得到迷宫答案：sddsdssdddwwwddsssssaaaaassddsddwdds
+运行文件得到迷宫答案：`sddsdssdddwwwddsssssaaaaassddsddwdds`
 
 ![image-20240220155920684](./img/Pytrans/image-20240220155920684.png)
 
 运行文件输入迷宫答案：
 
-得知flag就是迷宫路径答案经过的footprint字符串的字符
+得知`flag`就是迷宫路径答案经过的`footprint`字符串的字符
 
 ![image-20240220155926904](./img/Pytrans/image-20240220155926904.png)
 
-为了方便，直接编辑tiqu.py
+为了方便，直接编辑`tiqu.py`
 
 ```python
 # uncompyle6 version 3.9.0
@@ -360,5 +360,5 @@ else:
 
 
 
-运行得到flag：    ![image-20240220155949049](./img/Pytrans/image-20240220155949049.png)
+运行得到`flag{3eea35d-953744a-6d838dle-f9802c-f7d10}`![image-20240220155949049](./img/Pytrans/image-20240220155949049.png)
 

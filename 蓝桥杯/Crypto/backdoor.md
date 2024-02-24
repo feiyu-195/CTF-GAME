@@ -91,21 +91,21 @@ ct = b'\x1a\xfb\xa2\xe1\x86\x04\xfak\x9a\xa3\xd15\xb8\x16\x1d\xbc\xa9S\xf5;\xfa\
 '''
 ```
 
-可以看到代码使用的椭圆曲线密码加密计算key和AES加密计算flag，本来单靠椭圆曲线密码（私钥加密）是无法解密出key，但是题目给了一线生机，除了函数随机得出的key1外还计算了一个共享密钥key2，而这个key2是我们可以通过计算得出的，通过这个key2和源代码计算的加密结果ct可以计算出最终的flag。
+可以看到代码使用的椭圆曲线密码加密计算`key`和`AES`加密计算`flag`，椭圆曲线密码（私钥加密）除了函数随机得出的`key1`外还计算了一个共享密钥`key2`，而这个`key2`是我们可以通过计算得出的，通过这个`key2`和源代码计算的加密结果`ct`可以计算出最终的`flag`。
 
 代码如下：
 
 *注：需要安装`sagemath`库`pip install sagemath`*
 
-但经过我的尝试，pycharm识别不了sagemath里的这两个方法`GF，EllipticCurve`
+但经过尝试，`pycharm`识别不了`sagemath`里的这两个方法`GF，EllipticCurve`
 
-所以我这里是使用sagemath的软件进行计算相关参数[Sagemath下载镜像地址](https://mirrors.aliyun.com/sagemath/win/index.html "阿里云镜像")：
+所以我这里是使用`sagemath`的软件进行计算相关参数[Sagemath下载镜像地址](https://mirrors.aliyun.com/sagemath/win/index.html "阿里云镜像")：
 
-打开Sagemath notebook：
+打开`Sagemath notebook`：
 
 ![image-20240222174755164](./img/backdoor/image-20240222174755164.png)
 
-![image-20240222174859562](./img/backdoor/image-20240222174859562.png)以下是sagemath代码（语法规则与python完全相同）：
+![image-20240222174859562](./img/backdoor/image-20240222174859562.png)以下是`sagemath`代码（语法规则与`python`完全相同)：
 
 ```sagemath
 (w, a, b, x) = (31889563, 31153, 28517, 763220531)
@@ -136,7 +136,7 @@ shared_key2 = (97517138267700886267360407883781501840716870798406755477858772843
 '''
 ```
 
-将sagemath得到的两个元组变量中的`：`改为`,`，放入python中使用，达到python代码：
+将`sagemath`得到的两个元组变量中的`：`改为`,`，放入`python`中使用，达到`python`代码：
 
 ```python
 from Crypto.Util.number import *
@@ -182,9 +182,9 @@ flag = b'flag{63259ab8-4916-4095-8888-d92c2b003e18}\x06\x06\x06\x06\x06\x06'
 
 代码中出一些变量外，其他代码几乎就是原版照抄！！！
 
-*`sagemath`代码中的z变量表达式就是**题目源代码**括号拆开带入`M1=k1*G`*
+*`sagemath`代码中的`z`变量表达式就是**题目源代码**括号拆开带入`M1=k1*G`*
 
-最终得到flag：flag{63259ab8-4916-4095-8888-d92c2b003e18}
+最终得到`flag：flag{63259ab8-4916-4095-8888-d92c2b003e18}`
 
 
 
