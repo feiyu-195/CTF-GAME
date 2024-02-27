@@ -6,7 +6,7 @@ flag在/flag，每个容器只支持同时连接一个客户端。部分指令�
 
 下发题目，得到一个nc连接的地址，用nc命令连接
 
-![image-20240221135952641](./img/pyshell/image-20240221135952641.png)
+![image-20240221135952641](assets/pyshell/img/image-20240221135952641.png)
 
 可以看到是一个类似的`shell`窗口，查询得知这是CTF中的伪`python shell`题目；
 
@@ -17,7 +17,7 @@ flag在/flag，每个容器只支持同时连接一个客户端。部分指令�
 
 输入一些命令发现全是输出`nop`，根据题目描述，`flag`在`' /flag '`中，所以我们的思路是思路是通过输入python代码执行`shell`命令但是题目过滤了这些命令（如`import print`等）。并且一次发现只能输入7个字符（包括`''`）
 
-![image-20240221141236205](./img/pyshell/image-20240221141236205.png)
+![image-20240221141236205](assets/pyshell/img/image-20240221141236205.png)
 
 所以我们换一个查询思路：`__import__('os').system('cat /flag')`
 
@@ -43,5 +43,5 @@ eval(_)
 
 得到`flag{80f772f1-6740-4571-87ba-cf6b3db34581}`
 
-![image-20240221141724401](./img/pyshell/image-20240221141724401.png)
+![image-20240221141724401](assets/pyshell/img/image-20240221141724401.png)
 

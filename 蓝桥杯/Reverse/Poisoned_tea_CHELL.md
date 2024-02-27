@@ -6,19 +6,19 @@
 
 通过题目可以猜测该题与tea加密算法有关。拖入`exeinfope`，`64`为的`elf`文件，在`kali`中运行程序查看特征
 
-​    ![image-20240220155102692](./img/Poisoned_tea_CHELL/image-20240220155102692.png)
+​    ![image-20240220155102692](assets/Poisoned_tea_CHELL/img/image-20240220155102692.png)
 
 ，用`IDA`打开可以发现在字符串页面中没有程序运行特征，并且发现无主程序`main`，并且识别不了一些函数，怀疑有壳但是用`UPX`工具不能脱，查看其中的函数，在函数`sub_5847`中发现疑似`Tea`加密算法特征， `sub_5763`函数疑似解密算法特征，
 
 继续追踪函数`5847`，发现在`sub_597A`中用了`5847`这函数，
 
-![image-20240220155110715](./img/Poisoned_tea_CHELL/image-20240220155110715.png)
+![image-20240220155110715](assets/Poisoned_tea_CHELL/img/image-20240220155110715.png)
 
 分析函数，不难发现`v11`数组就是`tea`算法需要的`key`，`v17`就是解密的数据，但是`v11`和加密轮数这些重要数据都未识别到，那么可以采用动态调试的方式进行逆向，这里可以使用`IDA`自带的`linux`远程调试功能进行调试。
 
 1. 找到`IDA`的安装目录，进入`dbgsrv`目录下找到`linux_server64`位程序，将其放入`kali`中，并给其赋予执行权限，将题目也放入`kali`中赋予执行权限，
 
-![image-20240220155118348](./img/Poisoned_tea_CHELL/image-20240220155118348.png)
+![image-20240220155118348](assets/Poisoned_tea_CHELL/img/image-20240220155118348.png)
 
 2. 分别运行`linux_server64`和题目
 
@@ -27,27 +27,27 @@
 ./Poisoned_Tea
 ```
 
-![image-20240220155138338](./img/Poisoned_tea_CHELL/image-20240220155138338.png)
+![image-20240220155138338](assets/Poisoned_tea_CHELL/img/image-20240220155138338.png)
 
 3. 在`IDA`中找到`debugger`，选择*远程linux调试*，填写相关路径信息，
 
-![image-20240220155153320](./img/Poisoned_tea_CHELL/image-20240220155153320.png)
+![image-20240220155153320](assets/Poisoned_tea_CHELL/img/image-20240220155153320.png)
 
-![image-20240220155159557](./img/Poisoned_tea_CHELL/image-20240220155159557.png)
+![image-20240220155159557](assets/Poisoned_tea_CHELL/img/image-20240220155159557.png)
 
-![image-20240220155203802](./img/Poisoned_tea_CHELL/image-20240220155203802.png)
+![image-20240220155203802](assets/Poisoned_tea_CHELL/img/image-20240220155203802.png)
 
 4. 设置好后确定再在`debugger`选项卡中选择`Attach to process`选择要调试的附加程序`.\Poisoned_Tea`，开始调试
 
-![image-20240220155209025](./img/Poisoned_tea_CHELL/image-20240220155209025.png)
+![image-20240220155209025](assets/Poisoned_tea_CHELL/img/image-20240220155209025.png)
 
 5. 然后再`kali`运行的题目程序中选择选项二回车，
 
-![image-20240220155242437](./img/Poisoned_tea_CHELL/image-20240220155242437.png)
+![image-20240220155242437](assets/Poisoned_tea_CHELL/img/image-20240220155242437.png)
 
 6. 然后一直按`F7`单步步入，直到这个地方不能步入了（就是因为该函数不能被IDA识别），按`P`生成函数，然后再`F5`转换伪代码查看
 
-![image-20240220155247674](./img/Poisoned_tea_CHELL/image-20240220155247674.png)
+![image-20240220155247674](assets/Poisoned_tea_CHELL/img/image-20240220155247674.png)
 
 这就是该程序完整的执行流程了（加了注释），
 
@@ -214,29 +214,29 @@ int main(){
 
 在本解法最后一步中得到的数据有些问题，在动态调试时发现`dword_7F2210ACB1E0`数组并不是`12`个，在文章开头时猜测过本题有壳但是用`exeinfope`查询不出就此作罢，但是在用另一个工具`die`时发现了`UPX`壳，用`wenhex`打开
 
-![image-20240220155425822](./img/Poisoned_tea_CHELL/image-20240220155425822.png)
+![image-20240220155425822](assets/Poisoned_tea_CHELL/img/image-20240220155425822.png)
 
-![image-20240220155431567](./img/Poisoned_tea_CHELL/image-20240220155431567.png)
+![image-20240220155431567](assets/Poisoned_tea_CHELL/img/image-20240220155431567.png)
 
 确实很符合修改过`UPX`壳特征的痕迹，将`VMP`全部替换成`UPX`（注意大写）后，发现确实可以用`upx`工具进行脱壳了，脱壳后脱如`IDA`中得到的代码很完整：
 
-![image-20240220155436427](./img/Poisoned_tea_CHELL/image-20240220155436427.png)
+![image-20240220155436427](assets/Poisoned_tea_CHELL/img/image-20240220155436427.png)
 
 其中的验证数据也很完整，但是在与动态调试时获取到的数据不一样，应该是程序在运行过程中进行了修改（太狗了），**所以就算是脱壳后也要进行远程动态调试**；
 
 还有一种解法是不用脱壳直接将程序拖入`IDA`中进行手动定义函数：
 
-![image-20240220155441449](./img/Poisoned_tea_CHELL/image-20240220155441449.png)
+![image-20240220155441449](assets/Poisoned_tea_CHELL/img/image-20240220155441449.png)
 
 在`IDA`上方的内存分布中可以在函数区段发现`4`个红区，这就是`IDA`未成功识别函数的位置，直接鼠标移到此处，点击进入
 
-![image-20240220155447585](./img/Poisoned_tea_CHELL/image-20240220155447585.png)
+![image-20240220155447585](assets/Poisoned_tea_CHELL/img/image-20240220155447585.png)
 
 可以看到`4`个奇怪数据，将鼠标点击`763`位置按`u`键取消定义，在按`p`生成函数
 
 变成这样
 
-![image-20240220155459210](./img/Poisoned_tea_CHELL/image-20240220155459210.png)
+![image-20240220155459210](assets/Poisoned_tea_CHELL/img/image-20240220155459210.png)
 
 其他三个地方同理，修复完成后重新加载即可得到相对完整数据（**没成功**），当然程序运行时该改的值还是会改，所以三种方法不变的是都需要进行动态调试，不一样的地方只是开始拿到题目对题目进行的初步处理不一样。
 

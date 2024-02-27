@@ -11,7 +11,7 @@ Wordle游戏（纯纯玩游戏，通关就给flag）
 
 连接后
 
-![image-20240220160408709](./img/Wordle/image-20240220160408709.png)
+![image-20240220160408709](assets/Wordle/img/image-20240220160408709.png)
 
 > 翻译：
 >
@@ -70,5 +70,5 @@ batch        mured        gipsy        flown
 
 `flag{805f21f3-1e9d-44e4-9a82-b9975480816d}`
 
-![image-20240220160450049](./img/Wordle/image-20240220160450049.png)
+![image-20240220160450049](assets/Wordle/img/image-20240220160450049.png)
 

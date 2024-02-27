@@ -46,13 +46,13 @@ copy /b tupian.png + 文件夹.zip tupian.png
 sudo nc -lvn 端口
 ```
 
-![image-20240220161135499](./img/piphack/image-20240220161135499.png)
+![image-20240220161135499](assets/piphack/img/image-20240220161135499.png)
 
 2、然后用`nc`连接题目给出的地址
 
-![image-20240220161139217](./img/piphack/image-20240220161139217.png)
+![image-20240220161139217](assets/piphack/img/image-20240220161139217.png)
 
 这里发现题目过滤了`http`，尝试使用`Http`绕过，等待一会儿发现在我们的服务器上已经连接上，说明成功，接下来就是一系列测试命令最终发现`flag{a262d436-704d-402b-881d-c487d7cf945f}`
 
-![image-20240220161144411](./img/piphack/image-20240220161144411.png)
+![image-20240220161144411](assets/piphack/img/image-20240220161144411.png)
 

@@ -103,9 +103,9 @@ ct = b'\x1a\xfb\xa2\xe1\x86\x04\xfak\x9a\xa3\xd15\xb8\x16\x1d\xbc\xa9S\xf5;\xfa\
 
 打开`Sagemath notebook`：
 
-![image-20240222174755164](./img/backdoor/image-20240222174755164.png)
+![image-20240222174755164](assets/backdoor/img/image-20240222174755164.png)
 
-![image-20240222174859562](./img/backdoor/image-20240222174859562.png)以下是`sagemath`代码（语法规则与`python`完全相同)：
+![image-20240222174859562](assets/backdoor/img/image-20240222174859562.png)以下是`sagemath`代码（语法规则与`python`完全相同)：
 
 ```sagemath
 (w, a, b, x) = (31889563, 31153, 28517, 763220531)

@@ -28,7 +28,7 @@ git add 文件.后缀
 
 到这里，可以看到如下页面：
 
-![image-20240220205802414](./img/README/image-20240220205802414.png)
+![image-20240220205802414](assets/README/img/image-20240220205802414.png)
 
 这个时候当我们上传到github main分支发现会报错，因为git bash默认帮我们创建的是master分支，这是我们只能上传到一个新分支master（github以前的默认主分支），我们可以通过修改git默认分支名称来更改：
 
@@ -36,13 +36,13 @@ git add 文件.后缀
 git branch -m master main
 ```
 
-![image-20240220210114543](./img/README/image-20240220210114543.png)
+![image-20240220210114543](assets/README/img/image-20240220210114543.png)
 
 这是我们就可以通过push命令上传到github仓库：
 
 先绑定github仓库：
 
-![image-20240220210514452](./img/README/image-20240220210514452.png)
+![image-20240220210514452](assets/README/img/image-20240220210514452.png)
 
 到这里，你的添加并没有上传到仓库，只是添加到了暂存区，上传到仓库还需要输入以下指令：
 
@@ -60,14 +60,42 @@ git branch -m master main
 
 在上传main分支是，还可能有个报错，
 
-![image-20240220210822749](./img/README/image-20240220210822749.png)
+![image-20240220210822749](assets/README/img/image-20240220210822749.png)
 
 这是因为在创建git仓库是，勾选了默认创建一个README文件，导致git远程仓库有该文件，但是我们的本地仓库没有该文件，所以我们可以先合并文件到本地仓库，在通过push上传：
 
-![image-20240220211117147](./img/README/image-20240220211117147.png)
+![image-20240220211117147](assets/README/img/image-20240220211117147.png)
 
 在通过push上传到github远程仓库，可以看到上传成功：
 
-![image-20240220211351537](./img/README/image-20240220211351537.png)
+![image-20240220211351537](assets/README/img/image-20240220211351537.png)
 
 在github中查看也可以看到文件。
+
+
+
+无视警告，README和license我不要了。
+
+```shell
+git push --force
+```
+
+
+执行以上指令强行提交。
+
+试着获取远程仓库的初始提交( initial commit)，就是README和license这两个文件的commit，在此基础上 rebase commit。但是这种方法可能有点棘手，不如暴力提交简单。
+
+```shell
+git fetch example //获取初始提交
+git rebase example/mian 
+```
+
+
+试着合并初始提交与你的提交,这也是我最推荐的方法：
+
+```shell
+git fetch example
+git merge --allow-unrelated-histories example/main
+```
+
+

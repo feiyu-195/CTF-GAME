@@ -6,13 +6,13 @@
 
 下载附件，用`wireshark`打开
 
-![image-20240225152050432](./img/flooding/image-20240225152050432.png)
+![image-20240225152050432](assets/flooding/img/image-20240225152050432.png)
 
 全是ARP报文，无其他信息
 
 随意点击每个报文，可以看出每个报文中只有一个字节发生变化，记录下来：
 
-![image-20240225152215111](./img/flooding/image-20240225152215111.png)
+![image-20240225152215111](assets/flooding/img/image-20240225152215111.png)
 
 1. `ZmxhZ3s1NTdiNjUyYi1kZDRlLQ==`
 2. `GRTGGOBNHBQWCZBNMY2DEZRYG5TGGYLDGJRH2===`
@@ -26,7 +26,7 @@
 
 拼接得到`flag{557b652b-dd4e-4fc8-8aad-f42f87fcac2b}`
 
-![image-20240225152806376](./img/flooding/image-20240225152806376.png)
+![image-20240225152806376](assets/flooding/img/image-20240225152806376.png)
 
-![image-20240225152831537](./img/flooding/image-20240225152831537.png)
+![image-20240225152831537](assets/flooding/img/image-20240225152831537.png)
 

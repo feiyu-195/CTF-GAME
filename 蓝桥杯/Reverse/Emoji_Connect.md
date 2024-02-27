@@ -12,7 +12,7 @@
 
 找到主程序代码
 
-![image-20240224150434495](./img/Emoji_Connect/image-20240224150434495.png)
+![image-20240224150434495](assets/Emoji_Connect/img/image-20240224150434495.png)
 
 可以看到我们是完全看不懂的。。。
 
@@ -91,7 +91,7 @@
 
 通过对代码的分析找到程序的执行逻辑，找到主要代码（只有这里有关于数组的计算操作）：
 
-![image-20240224151237557](./img/Emoji_Connect/image-20240224151237557.png)
+![image-20240224151237557](assets/Emoji_Connect/img/image-20240224151237557.png)
 
 怀疑最后得到的`this.number`是最终的`flag`：
 
@@ -117,7 +117,7 @@ if (target6(<>p__6, Game.<>o__6.<>p__12.Target(Game.<>o__6.<>p__12, list[0].get_
 
 首先进行数据整理
 
-[整理后数据](./img/Emoji_Connect/data.txt)
+[整理后数据](assets/Emoji_Connect/data.txt)
 
 ```python
 array = []
