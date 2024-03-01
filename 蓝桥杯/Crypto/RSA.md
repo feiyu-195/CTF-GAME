@@ -24,7 +24,7 @@
 
 根据代码已知两个输出的密文，两个公钥e1，e2（e1可以更具random种子重现得知），n值
 
-由此写出结题程序，得到flag：flag{359a1693-7bce-4fbc-87fa-111cdffaa0e8}
+由此写出结题程序，得到`flag{359a1693-7bce-4fbc-87fa-111cdffaa0e8}`
 
 ```python
 from Crypto.Util.number import *
